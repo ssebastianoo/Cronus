@@ -108,7 +108,7 @@ export default function Project({
 
   return (
     <TableRow className={isRunning ? '' : 'opacity-50'}>
-      <TableCell className='underline'>
+      <TableCell className='underline max-w-[100px] overflow-auto'>
         <ProjectName project={project} />
       </TableCell>
       <TableCell className='font-bold text-lg'>

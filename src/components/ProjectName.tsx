@@ -46,6 +46,7 @@ export default function ProjectName({ project }: { project: ProjectT }) {
         value={text}
         type='text'
         onChange={(e) => {
+          if (e.target.value.length > 40) return;
           setText(e.target.value);
         }}
         onKeyDown={(e) => {
