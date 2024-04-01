@@ -74,11 +74,24 @@ export default function Project({
         .from('project')
         .update({
           is_running: true,
-          last_time: lastTime,
+          last_time: now,
         })
         .eq('id', project.id)
         .select();
     }
+  }
+
+  async function resetProject() {
+    await supabase
+      .from('project')
+      .update({ total_time: 0, is_running: false })
+      .eq('id', project.id);
+    if (inter) {
+      clearInterval(inter);
+    }
+    setTotalTime(0);
+    setTime(0);
+    setIsRunning(false);
   }
 
   function formatTime(seconds: number): string {
@@ -127,6 +140,9 @@ export default function Project({
             </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuItem className='cursor-pointer' onClick={resetProject}>
+              Reset
+            </DropdownMenuItem>
             <DropdownMenuItem
               className='cursor-pointer'
               onClick={async () => {
