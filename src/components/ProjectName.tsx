@@ -48,6 +48,11 @@ export default function ProjectName({ project }: { project: ProjectT }) {
         onChange={(e) => {
           setText(e.target.value);
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            inputRef.current?.blur();
+          }
+        }}
       />
     </>
   );
