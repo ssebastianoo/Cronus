@@ -81,7 +81,7 @@ export default function Home() {
           <CardHeader>
             <CardTitle>Time Tracker</CardTitle>
             <CardDescription>
-              Track how much time you spend on yout project
+              Track how much time you spend on your project
             </CardDescription>
           </CardHeader>
           <CardContent>
