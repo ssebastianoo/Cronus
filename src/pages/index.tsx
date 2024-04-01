@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/table';
 import { useStore } from '@/utils/store';
 import { Plus } from 'lucide-react';
-import { Loader } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   const [projects, setProjects] = useState([] as ProjectType[]);
@@ -46,6 +46,29 @@ export default function Home() {
     } else {
       console.log(data, error);
     }
+  }
+
+  if (!loaded) {
+    return (
+      <div className='w-full flex flex-col gap-4 justify-center items-center h-[var(--fh)]'>
+        <div className='flex flex-col gap-1  w-72'>
+          <Skeleton className='w-40 h-6' />
+          <Skeleton className='w-44 h-6' />
+        </div>
+        <div className='flex flex-col gap-1 w-72'>
+          <Skeleton className='w-32 h-6' />
+          <Skeleton className='w-52 h-6' />
+        </div>
+        <div className='flex flex-col gap-1 w-72'>
+          <Skeleton className='w-36 h-6' />
+          <Skeleton className='w-48 h-6' />
+        </div>
+        <div className='flex flex-col gap-1 w-72'>
+          <Skeleton className='w-28 h-6' />
+          <Skeleton className='w-40 h-6' />
+        </div>
+      </div>
+    );
   }
 
   return (
