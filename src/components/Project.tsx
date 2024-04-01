@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Project({
   project,
@@ -98,7 +99,14 @@ export default function Project({
         <ProjectName project={project} />
       </TableCell>
       <TableCell className='font-bold text-lg'>
-        {loaded ? formatTime(Math.round(time / 1000)) : '...'}
+        {loaded ? (
+          formatTime(Math.round(time / 1000))
+        ) : (
+          <>
+            <Skeleton className='w-10 h-3 rounded' />
+            <Skeleton className='w-8 h-3 rounded mt-1' />
+          </>
+        )}
       </TableCell>
       <TableCell className='text-right w-[90px]'>
         <Button

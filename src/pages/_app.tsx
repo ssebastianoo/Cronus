@@ -1,16 +1,18 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '@/utils/store';
 import Login from '@/components/Login';
 import { supabase } from '@/utils/supabase';
 import Header from '@/components/Header';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
+import { Loader } from 'lucide-react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -29,9 +31,18 @@ export default function App({ Component, pageProps }: AppProps) {
       if (data.user) {
         setUser(data.user);
       }
+      setLoaded(true);
     }
     login();
   }, [setUser]);
+
+  if (!loaded) {
+    return (
+      <div className='w-full flex justify-center items-center h-[var(--fh)]'>
+        <Loader size={30} className='animate-spin' />
+      </div>
+    );
+  }
 
   return (
     <>

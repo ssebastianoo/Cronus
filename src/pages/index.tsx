@@ -12,10 +12,12 @@ import {
 } from '@/components/ui/table';
 import { useStore } from '@/utils/store';
 import { Plus } from 'lucide-react';
+import { Loader } from 'lucide-react';
 
 export default function Home() {
   const [projects, setProjects] = useState([] as ProjectType[]);
   const user = useStore((state) => state.user);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     async function checkUser() {
@@ -28,6 +30,7 @@ export default function Home() {
         if (data) {
           setProjects(data);
         }
+        setLoaded(true);
       }
     }
     checkUser();
