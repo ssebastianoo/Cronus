@@ -6,6 +6,7 @@ import Login from '@/components/Login';
 import { supabase } from '@/utils/supabase';
 import Header from '@/components/Header';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const user = useStore((state) => state.user);
