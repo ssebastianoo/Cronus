@@ -31,7 +31,7 @@ export default function Login() {
     <div className='flex justify-center items-center h-[calc(var(--fh)+56px)]'>
       <Card>
         <CardHeader>
-          <CardTitle>Time Tracker</CardTitle>
+          <CardTitle>Cronus</CardTitle>
           <CardDescription>
             Track how much time you spend on your project
           </CardDescription>
