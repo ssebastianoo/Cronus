@@ -36,16 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
     login();
   }, [setUser]);
 
-  if (!loaded) {
-    return (
-      <div className='w-full flex justify-center items-center h-[var(--fh)]'>
-        <Loader size={30} className='animate-spin' />
-      </div>
-    );
-  }
-
   return (
     <>
+      <Analytics />
       <Head>
         <title>Cronus</title>
         <meta
@@ -133,13 +126,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name='theme-color' content='#0a0a0a' />
       </Head>
 
-      {user ? (
-        <>
-          <Header />
-          <Component {...pageProps} />
-        </>
+      {loaded ? (
+        user ? (
+          <>
+            <Header />
+            <Component {...pageProps} />
+          </>
+        ) : (
+          <Login />
+        )
       ) : (
-        <Login />
+        <div className='w-full flex justify-center items-center h-[var(--fh)]'>
+          <Loader size={30} className='animate-spin' />
+        </div>
       )}
     </>
   );
