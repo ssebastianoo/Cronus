@@ -6,13 +6,13 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     document.documentElement.style.setProperty(
       '--fh',
-      `${window.innerHeight}px`,
+      `${window.innerHeight - 56}px`,
     );
 
     window.addEventListener('resize', () => {
       document.documentElement.style.setProperty(
         '--fh',
-        `${window.innerHeight}px`,
+        `${window.innerHeight - 56}px`,
       );
     });
   }, []);

@@ -79,15 +79,27 @@ export default function Project({
     }
   }
 
+  function formatTime(seconds: number): string {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+
   return (
     <TableRow className={isRunning ? '' : 'opacity-50'}>
       <TableCell className='underline'>
         <ProjectName project={project} />
       </TableCell>
       <TableCell className='font-bold text-lg'>
-        {loaded ? Math.round(time / 1000) : '...'}
+        {loaded ? formatTime(Math.round(time / 1000)) : '...'}
       </TableCell>
-      <TableCell className='text-right w-[100px]'>
+      <TableCell className='text-right w-[90px]'>
         <Button
           onClick={() => {
             updateProject(project);
@@ -98,7 +110,7 @@ export default function Project({
           {isRunning ? 'Stop' : 'Start'}
         </Button>
       </TableCell>
-      <TableCell>
+      <TableCell className='text-right'>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button size='sm' variant='ghost'>

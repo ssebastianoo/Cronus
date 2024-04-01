@@ -11,8 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import Link from 'next/link';
 
-export default function Test() {
+export default function Home() {
   const [projects, setProjects] = useState([] as ProjectType[]);
   const [user, setUser] = useState(null as User | null);
 
@@ -24,14 +33,13 @@ export default function Test() {
           access_type: 'offline',
           prompt: 'consent',
         },
+        redirectTo:
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000'
+            : undefined,
       },
     });
   }
-
-  let intervals: {
-    id: number;
-    interval: NodeJS.Timeout;
-  }[] = [];
 
   useEffect(() => {
     async function checkUser() {
@@ -66,105 +74,83 @@ export default function Test() {
     }
   }
 
-  async function updateProject(project: ProjectType) {
-    let result: { data: ProjectType[] | null; error: any };
-
-    if (project.is_running && project.last_time) {
-      const interval = intervals.find((i) => i.id === project.id);
-      if (interval) {
-        clearInterval(interval.interval);
-        intervals = intervals.filter((i) => i.id !== project.id);
-      }
-
-      result = await supabase
-        .from('project')
-        .update({
-          is_running: false,
-          total_time: Date.now() - project.last_time,
-        })
-        .eq('id', project.id)
-        .select();
-    } else {
-      result = await supabase
-        .from('project')
-        .update({
-          is_running: true,
-          last_time: Date.now(),
-        })
-        .eq('id', project.id)
-        .select();
-    }
-
-    console.log(result);
-
-    setProjects(
-      projects.map((p) => {
-        if (p.id === project.id && result.data) {
-          p = result.data[0];
-        }
-        return p;
-      }),
-    );
-
-    if (project.is_running) {
-      const interval = setInterval(() => {
-        setProjects(
-          projects.map((p) => {
-            if (p.id === project.id && project.last_time) {
-              p.total_time = Date.now() - project.last_time;
-            }
-            return p;
-          }),
-        );
-      }, 1000);
-      intervals.push({
-        id: project.id,
-        interval,
-      });
-    }
-  }
-
   if (!user) {
     return (
-      <div>
-        <button onClick={signIn}>signin</button>
+      <div className='flex justify-center items-center h-[calc(var(--fh)+56px)]'>
+        <Card>
+          <CardHeader>
+            <CardTitle>Time Tracker</CardTitle>
+            <CardDescription>
+              Track how much time you spend on yout project
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button className='text-md' onClick={signIn}>
+              Login
+            </Button>
+          </CardContent>
+          <CardFooter>
+            <Link
+              href='https://github.com/ssebastianoo/time-tracker'
+              className='hover:underline'
+            >
+              GitHub
+            </Link>
+          </CardFooter>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className='justify-center flex items-center h-[var(--fh)]'>
-      <div className='w-full max-w-xl'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Project</TableHead>
-              <TableHead className='w-[100px]'>Time</TableHead>
-              <TableHead className='w-[100px] text-right'>
-                <Button onClick={createProject} variant='outline' size={'sm'}>
-                  <svg
-                    className='w-4 h-4 fill-current'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 448 512'
-                  >
-                    <path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />
-                  </svg>
-                </Button>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projects.map((project) => (
-              <Project
-                key={project.id}
-                project={project}
-                projects={projects}
-                setProjects={setProjects}
-              />
-            ))}
-          </TableBody>
-        </Table>
+    <>
+      <nav className='flex justify-end h-14 items-center pr-3 '>
+        <Button
+          size='sm'
+          variant='outline'
+          className='text-xs'
+          onClick={async () => {
+            await supabase.auth.signOut();
+            location.reload();
+          }}
+        >
+          Logout
+        </Button>
+      </nav>
+      <div className='justify-center flex sm:items-center h-[var(--fh)] items-start'>
+        <div className='w-full max-w-xl'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Project</TableHead>
+                <TableHead className='w-[120px]'>Time</TableHead>
+                <TableHead className='w-[30px]' />
+                <TableHead className='w-[80px] text-right'>
+                  <Button onClick={createProject} variant='outline' size={'sm'}>
+                    <svg
+                      className='w-4 h-4 fill-current'
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 448 512'
+                    >
+                      <path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />
+                    </svg>
+                  </Button>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {projects.map((project) => (
+                <Project
+                  key={project.id}
+                  project={project}
+                  projects={projects}
+                  setProjects={setProjects}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
