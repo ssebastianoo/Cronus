@@ -1,9 +1,10 @@
 import type { Project as ProjectT } from '@/utils/types';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import ProjectName from './ProjectName';
+import { EllipsisVertical } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -113,15 +114,9 @@ export default function Project({
       <TableCell className='text-right'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button size='sm' variant='ghost'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 128 512'
-                className='w-4 h-4 fill-current'
-              >
-                <path d='M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z' />
-              </svg>
-            </Button>
+            <span className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
+              <EllipsisVertical size={20} />
+            </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
