@@ -8,14 +8,15 @@ import Header from '@/components/Header';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { Loader } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function App({ Component, pageProps }: AppProps) {
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
   const [loaded, setLoaded] = useState(false);
-  const noAuthNeeded = ['PrivacyPolicy', 'NotFound'];
 
-  console.log(Component.name);
+  const authNeeded = ['/'];
+  const authRequired = authNeeded.includes(usePathname());
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -131,7 +132,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header />
 
       {loaded ? (
-        user || noAuthNeeded.includes(Component.name) ? (
+        user || !authRequired ? (
           <Component {...pageProps} />
         ) : (
           <Login />
