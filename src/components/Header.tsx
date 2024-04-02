@@ -8,8 +8,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { EllipsisVertical } from 'lucide-react';
+import { useStore } from '@/utils/store';
 
 export default function Header() {
+  const user = useStore((state) => state.user);
+
   return (
     <nav className='flex justify-end h-14 items-center pr-3 '>
       <DropdownMenu>
@@ -28,15 +31,22 @@ export default function Header() {
               GitHub
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            className='cursor-pointer'
-            onClick={async () => {
-              await supabase.auth.signOut();
-              location.reload();
-            }}
-          >
-            Logout
+          <DropdownMenuItem className='cursor-pointer'>
+            <Link href='/privacy-policy' className='hover:underline'>
+              Privacy Policy
+            </Link>
           </DropdownMenuItem>
+          {user ? (
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onClick={async () => {
+                await supabase.auth.signOut();
+                location.reload();
+              }}
+            >
+              Logout
+            </DropdownMenuItem>
+          ) : null}
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>

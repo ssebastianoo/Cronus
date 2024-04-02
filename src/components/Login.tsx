@@ -28,7 +28,7 @@ export default function Login() {
   }
 
   return (
-    <div className='flex justify-center items-center h-[calc(var(--fh)+56px)]'>
+    <div className='flex justify-center items-center h-[calc(var(--fh))]'>
       <Card>
         <CardHeader>
           <CardTitle>Cronus</CardTitle>

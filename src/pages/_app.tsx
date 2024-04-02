@@ -13,6 +13,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
   const [loaded, setLoaded] = useState(false);
+  const noAuthNeeded = ['PrivacyPolicy', 'NotFound'];
+
+  console.log(Component.name);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -125,13 +128,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <meta name='theme-color' content='#0a0a0a' />
       </Head>
+      <Header />
 
       {loaded ? (
-        user ? (
-          <>
-            <Header />
-            <Component {...pageProps} />
-          </>
+        user || noAuthNeeded.includes(Component.name) ? (
+          <Component {...pageProps} />
         ) : (
           <Login />
         )
