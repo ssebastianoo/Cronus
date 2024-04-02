@@ -65,7 +65,7 @@ export default function PrivacyPolicy() {
         <p className='font-bold'>Contact Us</p>
         <p>
           If you have any questions or concerns about this Privacy Policy,
-          please contact us at sebastianogirotto05@gmail.com.
+          please contact us at sebastianogirotto05 at gmail dot com.
         </p>
         <p className='font-bold'>Effective Date</p>
         <p>
