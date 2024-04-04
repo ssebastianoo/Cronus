@@ -9,6 +9,7 @@ import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { Loader } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function App({ Component, pageProps }: AppProps) {
   const user = useStore((state) => state.user);
@@ -142,6 +143,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Loader size={30} className='animate-spin' />
         </div>
       )}
+      <Toaster />
     </>
   );
 }

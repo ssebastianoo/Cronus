@@ -31,30 +31,28 @@ export default function ProjectName({ project }: { project: ProjectT }) {
     );
   }
   return (
-    <>
-      <Input
-        ref={inputRef}
-        onBlur={async () => {
-          setEdit(false);
-          await supabase
-            .from('project')
-            .update({
-              name: text,
-            })
-            .eq('id', project.id);
-        }}
-        value={text}
-        type='text'
-        onChange={(e) => {
-          if (e.target.value.length > 40) return;
-          setText(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            inputRef.current?.blur();
-          }
-        }}
-      />
-    </>
+    <Input
+      ref={inputRef}
+      onBlur={async () => {
+        setEdit(false);
+        await supabase
+          .from('project')
+          .update({
+            name: text,
+          })
+          .eq('id', project.id);
+      }}
+      value={text}
+      type='text'
+      onChange={(e) => {
+        if (e.target.value.length > 40) return;
+        setText(e.target.value);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          inputRef.current?.blur();
+        }
+      }}
+    />
   );
 }

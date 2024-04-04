@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import Timer from './Timer';
 
 export default function Project({
   project,
@@ -50,7 +51,6 @@ export default function Project({
       if (inter) {
         clearInterval(inter);
       }
-
       setIsRunning(false);
       setTotalTime(time);
       await supabase
@@ -94,26 +94,24 @@ export default function Project({
     setIsRunning(false);
   }
 
-  function formatTime(seconds: number): string {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  }
-
   return (
-    <TableRow className={isRunning ? '' : 'opacity-50'}>
+    <TableRow className={isRunning ? '' : 'text-[#c4c3be]'}>
       <TableCell className='underline max-w-[100px] overflow-auto'>
         <ProjectName project={project} />
       </TableCell>
       <TableCell className='font-bold text-lg'>
         {loaded ? (
-          formatTime(Math.round(time / 1000))
+          <Timer
+            time={time}
+            setTime={setTime}
+            totalTime={totalTime}
+            setTotalTime={setTotalTime}
+            project={project}
+            setLastTime={setLastTime}
+            inter={inter}
+            setInter={setInter}
+            isRunning={isRunning}
+          />
         ) : (
           <>
             <Skeleton className='w-10 h-3 rounded' />
